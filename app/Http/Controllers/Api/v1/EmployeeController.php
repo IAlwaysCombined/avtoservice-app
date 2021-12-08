@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EducationResources;
 use App\Http\Resources\EmployeeResources;
+use App\Models\Education;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -34,12 +36,12 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return EmployeeResources
      */
-    public function show($id)
+    public function show(int $id): EmployeeResources
     {
-        //
+        return new EmployeeResources(Employee::findOrFail($id));
     }
 
     /**
@@ -57,11 +59,18 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $employee = Employee::find($id);
+        $result = $employee -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AutoResources;
+use App\Http\Resources\ServiceResources;
 use App\Http\Resources\SolutionResources;
 use App\Models\Auto;
+use App\Models\Service;
 use App\Models\Solution;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -36,12 +38,12 @@ class SolutionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return SolutionResources
      */
-    public function show($id)
+    public function show(int $id): SolutionResources
     {
-        //
+        return new SolutionResources(Solution::findOrFail($id));
     }
 
     /**
@@ -59,11 +61,18 @@ class SolutionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $solution = Solution::find($id);
+        $result = $solution -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }

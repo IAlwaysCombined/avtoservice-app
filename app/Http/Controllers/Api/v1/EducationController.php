@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AutoResources;
 use App\Http\Resources\EducationResources;
+use App\Models\Auto;
 use App\Models\Education;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -28,18 +30,18 @@ class EducationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return EducationResources
      */
-    public function show($id)
+    public function show(int $id): EducationResources
     {
-        //
+        return new EducationResources(Education::findOrFail($id));
     }
 
     /**
@@ -57,11 +59,18 @@ class EducationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $education = Education::find($id);
+        $result = $education -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }

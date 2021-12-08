@@ -14,7 +14,9 @@ class MaterialFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'date' => $this->faker->date(),
+            'wight' => $this->faker->numberBetween(200,1000),
+            'code' => $this->faker->numberBetween(200,1000),
         ];
     }
 }

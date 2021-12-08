@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\InvoiceResources;
 use App\Http\Resources\PositionResources;
+use App\Models\Education;
+use App\Models\Invoice;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -34,12 +37,12 @@ class PositionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return PositionResources
      */
-    public function show($id)
+    public function show(int $id): PositionResources
     {
-        //
+        return new PositionResources(Position::findOrFail($id));
     }
 
     /**
@@ -57,11 +60,18 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $position = Position::find($id);
+        $result = $position -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }

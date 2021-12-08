@@ -35,12 +35,12 @@ class RequestJobController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RequestJobResources
      */
-    public function show($id)
+    public function show(int $id): RequestJobResources
     {
-        //
+        return new RequestJobResources(RequestJob::findOrFail($id));
     }
 
     /**
@@ -58,11 +58,18 @@ class RequestJobController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $requestjob = RequestJob::find($id);
+        $result = $requestjob -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }

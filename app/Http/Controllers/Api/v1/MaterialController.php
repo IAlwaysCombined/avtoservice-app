@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EducationResources;
 use App\Http\Resources\InvoiceResources;
 use App\Http\Resources\MaterialResources;
+use App\Models\Education;
 use App\Models\Invoice;
 use App\Models\Material;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -36,12 +39,12 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return MaterialResources
      */
-    public function show($id)
+    public function show(int $id): MaterialResources
     {
-        //
+        return new MaterialResources(Material::findOrFail($id));
     }
 
     /**
@@ -59,11 +62,18 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $material = Material::find($id);
+        $result = $material -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }

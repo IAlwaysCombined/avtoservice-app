@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PositionResources;
 use App\Http\Resources\RequestResources;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -33,12 +35,12 @@ class RequestController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RequestResources
      */
-    public function show($id)
+    public function show(int $id): RequestResources
     {
-        //
+        return new RequestResources(\App\Models\Request::findOrFail($id));
     }
 
     /**
@@ -56,11 +58,18 @@ class RequestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $request = \App\Models\Request::find($id);
+        $result = $request -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }

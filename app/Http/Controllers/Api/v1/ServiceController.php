@@ -28,18 +28,18 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return ServiceResources
      */
-    public function show($id)
+    public function show(int $id): ServiceResources
     {
-        //
+        return new ServiceResources(Service::findOrFail($id));
     }
 
     /**
@@ -57,11 +57,18 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int $id): array
     {
-        //
+        $service = Service::find($id);
+        $result = $service -> delete();
+        if($result){
+            return ['result' => 'Удалено'];
+        }
+        else{
+            return ['result' => 'Ошибка удаления'];
+        }
     }
 }
