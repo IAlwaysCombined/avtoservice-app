@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AutoResources extends JsonResource
@@ -9,11 +11,22 @@ class AutoResources extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'type' => 'Auto',
+            'attributes' => [
+                'vin' => @$this->vin,
+                'model' => @$this->model,
+                'brand' => @$this->brand,
+                'color' => @$this->color,
+                'eco' => @$this->eco,
+                'created_at' => @$this->created_at,
+            ],
+        ];
     }
 }

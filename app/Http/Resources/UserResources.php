@@ -17,7 +17,7 @@ class UserResources extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => 'Users',
+            'type' => 'Request Job',
             'attributes' => [
                 'name' => $this->name,
                 'surname' => $this->surname,

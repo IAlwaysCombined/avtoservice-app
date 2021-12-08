@@ -15,7 +15,8 @@ class UserController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index(){
+    public function index(): AnonymousResourceCollection
+    {
         return UserResources::collection(User::all());
     }
 
