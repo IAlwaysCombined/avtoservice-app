@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PositionRequest;
 use App\Http\Resources\InvoiceResources;
 use App\Http\Resources\PositionResources;
+use App\Models\Auto;
 use App\Models\Education;
 use App\Models\Invoice;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class PositionController extends Controller
 {
@@ -26,12 +29,13 @@ class PositionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PositionRequest $request
+     * @return PositionResources
      */
-    public function store(Request $request)
+    public function store(PositionRequest $request)
     {
-        //
+        $create_position = Position::create($request->validated());
+        return new PositionResources($create_position);
     }
 
     /**
@@ -48,13 +52,22 @@ class PositionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PositionRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(PositionRequest $request)
     {
-        //
+        $position = Position::find($request -> id);
+        $position -> name = $request -> name;
+        $position -> salary = $request -> salary;
+        $position -> role = $request -> role;
+        $result = $position -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

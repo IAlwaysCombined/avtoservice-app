@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class MaterialRequest extends FormRequest
 {
@@ -13,7 +15,18 @@ class MaterialRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'data' => [
+                'success' => false,
+                'message' => 'Ошибка валидации',
+                'errors' => $validator->errors(),
+            ]
+        ]));
     }
 
     /**
@@ -24,7 +37,18 @@ class MaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'date' => 'required|max:20',
+            'wight' => 'required|max:20',
+            'code' => 'required|max:20',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'date.required' => 'Ошибка,поле date пустое',
+            'wight.required' => 'Ошибка,поле wight пустое',
+            'code.required' => 'Ошибка,поле code пустое',
         ];
     }
 }

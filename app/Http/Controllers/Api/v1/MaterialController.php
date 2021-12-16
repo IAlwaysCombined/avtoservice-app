@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MaterialRequest;
 use App\Http\Resources\EducationResources;
 use App\Http\Resources\InvoiceResources;
 use App\Http\Resources\MaterialResources;
+use App\Models\Auto;
 use App\Models\Education;
 use App\Models\Invoice;
 use App\Models\Material;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class MaterialController extends Controller
 {
@@ -28,12 +31,13 @@ class MaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param MaterialRequest $request
+     * @return MaterialResources
      */
-    public function store(Request $request)
+    public function store(MaterialRequest $request): MaterialResources
     {
-        //
+        $create_material = Material::create($request -> validated());
+        return new MaterialResources($create_material);
     }
 
     /**
@@ -50,13 +54,22 @@ class MaterialController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param MaterialRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(MaterialRequest $request): array
     {
-        //
+        $material = Material::find($request -> id);
+        $material -> date = $request -> date;
+        $material -> wight = $request -> wight;
+        $material -> code = $request -> code;
+        $result = $material -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

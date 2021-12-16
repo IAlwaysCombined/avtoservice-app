@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AutoRequest;
 use App\Http\Resources\AutoResources;
 use App\Models\Auto;
 use App\Models\Material;
@@ -24,12 +25,13 @@ class AutoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AutoRequest $request
+     * @return AutoResources
      */
-    public function store(Request $request)
+    public function store(AutoRequest $request): AutoResources
     {
-        //
+        $create_auto = Auto::create($request->validated());
+        return new AutoResources($create_auto);
     }
 
     /**
@@ -46,13 +48,25 @@ class AutoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param AutoRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(AutoRequest $request): array
     {
-        //
+        $auto = Auto::find($request -> id);
+        $auto -> vin = $request -> vin;
+        $auto -> model = $request -> model;
+        $auto -> brand = $request -> brand;
+        $auto -> color = $request -> color;
+        $auto -> eco = $request -> eco;
+        $auto -> user_id = $request -> user_id;
+        $result = $auto -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InvoiceRequest;
+use App\Http\Resources\AutoResources;
 use App\Http\Resources\EducationResources;
 use App\Http\Resources\EmployeeResources;
 use App\Http\Resources\InvoiceResources;
+use App\Models\Auto;
 use App\Models\Education;
 use App\Models\Employee;
 use App\Models\Invoice;
@@ -27,12 +30,13 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param InvoiceRequest $request
+     * @return InvoiceResources
      */
-    public function store(Request $request)
+    public function store(InvoiceRequest $request): InvoiceResources
     {
-        //
+        $crete_invoice = Invoice::create($request->validated());
+        return new InvoiceResources($crete_invoice);
     }
 
     /**
@@ -49,13 +53,22 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param InvoiceRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(InvoiceRequest $request)
     {
-        //
+        $invoice = Invoice::find($request -> id);
+        $invoice -> date = $request -> date;
+        $invoice -> coast = $request -> coast;
+        $invoice -> requests_id = $request -> requests_id;
+        $result = $invoice -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

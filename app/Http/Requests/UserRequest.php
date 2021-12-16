@@ -32,7 +32,6 @@ class UserRequest extends FormRequest
             'surname' => 'required|max:20',
             'pass' => 'required|max:20',
             'profile_photo_path' => 'required|max:150',
-
         ];
     }
 

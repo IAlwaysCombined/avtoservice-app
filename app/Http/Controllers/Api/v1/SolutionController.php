@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SolutionRequest;
 use App\Http\Resources\AutoResources;
 use App\Http\Resources\ServiceResources;
 use App\Http\Resources\SolutionResources;
@@ -11,6 +12,7 @@ use App\Models\Service;
 use App\Models\Solution;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class SolutionController extends Controller
 {
@@ -27,12 +29,13 @@ class SolutionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SolutionRequest $request
+     * @return SolutionResources
      */
-    public function store(Request $request)
+    public function store(SolutionRequest $request)
     {
-        //
+        $create_solution = Solution::create($request->validated());
+        return new SolutionResources($create_solution);
     }
 
     /**
@@ -49,13 +52,21 @@ class SolutionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SolutionRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(SolutionRequest $request): array
     {
-        //
+        $solition = Solution::find($request -> id);
+        $solition -> solution = $request -> solution;
+        $solition -> request_jobs_id = $request -> request_jobs_id;
+        $result = $solition -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

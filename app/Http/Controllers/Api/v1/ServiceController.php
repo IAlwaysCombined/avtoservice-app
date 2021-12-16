@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ServiceRequest;
 use App\Http\Resources\ServiceResources;
+use App\Models\Auto;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class ServiceController extends Controller
 {
@@ -23,12 +26,13 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ServiceRequest $request
+     * @return ServiceResources
      */
-    public function store(Request $request)
+    public function store(ServiceRequest $request): ServiceResources
     {
-
+        $create_service = Service::create($request->validated());
+        return new ServiceResources($create_service);
     }
 
     /**
@@ -45,13 +49,22 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ServiceRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(ServiceRequest $request): array
     {
-        //
+        $service = Service::find($request -> id);
+        $service -> name = $request -> name;
+        $service -> coast = $request -> coast;
+        $service -> time = $request -> time;
+        $result = $service -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

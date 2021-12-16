@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\EducationResources;
+use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResources;
-use App\Models\Education;
+use App\Models\Auto;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class EmployeeController extends Controller
 {
@@ -25,12 +26,13 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param EmployeeRequest $request
+     * @return EmployeeRequest
      */
-    public function store(Request $request)
+    public function store(EmployeeRequest $request): EmployeeRequest
     {
-        //
+        $create_employee = Employee::create($request->validated());
+        return new EmployeeRequest($create_employee);
     }
 
     /**
@@ -47,13 +49,34 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param EmployeeRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(EmployeeRequest $request): array
     {
-        //
+        $employee = Employee::find($request -> id);
+        $employee -> email = $request -> email;
+        $employee -> phone = $request -> phone;
+        $employee -> name = $request -> name;
+        $employee -> surname = $request -> surname;
+        $employee -> patronymic = $request -> patronymic;
+        $employee -> pass = $request -> pass;
+        $employee -> passport_series = $request -> passport_series;
+        $employee -> passport_number = $request -> passport_number;
+        $employee -> date = $request -> date;
+        $employee -> depart = $request -> depart;
+        $employee -> depart_code = $request -> depart_code;
+        $employee -> date_accept = $request -> date_accept;
+        $employee -> positions_id = $request -> positions_id;
+        $employee -> education_id = $request -> education_id;
+        $employee -> solutions_id = $request -> solutions_id;
+        $result = $employee -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

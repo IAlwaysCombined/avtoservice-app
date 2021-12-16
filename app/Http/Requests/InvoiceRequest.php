@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class InvoiceRequest extends FormRequest
 {
@@ -13,7 +15,18 @@ class InvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'data' => [
+                'success' => false,
+                'message' => 'Ошибка валидации',
+                'errors' => $validator->errors(),
+            ]
+        ]));
     }
 
     /**
@@ -24,7 +37,18 @@ class InvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'date' => 'required|max:20',
+            'coast' => 'required|max:20',
+            'requests_id' => 'required|max:20',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'date.required' => 'Ошибка,поле date пустое',
+            'coast.required' => 'Ошибка,поле coast пустое',
+            'requests_id.required' => 'Ошибка,поле requests_id пустое',
         ];
     }
 }

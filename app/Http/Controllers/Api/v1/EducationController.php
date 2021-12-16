@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EducationRequest;
 use App\Http\Resources\AutoResources;
 use App\Http\Resources\EducationResources;
 use App\Models\Auto;
@@ -25,12 +26,13 @@ class EducationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param EducationRequest $request
+     * @return EducationResources
      */
-    public function store(Request $request)
+    public function store(EducationRequest $request): EducationResources
     {
-
+        $create_education = Education::create($request->validated());
+        return new EducationResources($create_education);
     }
 
     /**
@@ -47,13 +49,23 @@ class EducationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param EducationRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(EducationRequest $request): array
     {
-        //
+        $education = Education::find($request -> id);
+        $education -> range = $request -> range;
+        $education -> date = $request -> date;
+        $education -> faculty = $request -> faculty;
+        $education -> speciality = $request -> speciality;
+        $result = $education -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

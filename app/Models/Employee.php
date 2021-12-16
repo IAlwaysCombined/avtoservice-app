@@ -15,7 +15,7 @@ class Employee extends Model
         'email_verified_at',
         'name',
         'surname',
-        'surname',
+        'patronymic',
         'pass',
         'passport_series',
         'passport_number',

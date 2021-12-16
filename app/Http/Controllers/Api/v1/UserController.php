@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\SolutionResources;
 use App\Http\Resources\UserResources;
+use App\Models\Auto;
 use App\Models\Solution;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -25,12 +27,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param UserRequest $request
+     * @return UserResources
      */
-    public function store(Request $request)
+    public function store(UserRequest $request): UserResources
     {
-        //
+        $create_user = User::create($request->validated());
+        return new UserResources($create_user);
     }
 
     /**
@@ -47,13 +50,24 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UserRequest $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request): array
     {
-        //
+        $user = User::find($request -> id);
+        $user -> name = $request -> name;
+        $user -> surname = $request -> surname;
+        $user -> email = $request -> email;
+        $user -> pass = $request -> pass;
+        $user -> profile_photo_path = $request -> profile_photo_path;
+        $result = $user -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RequestJobRequest;
 use App\Http\Resources\RequestJobResources;
 use App\Http\Resources\RequestResources;
+use App\Models\Employee;
 use App\Models\RequestJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -24,12 +26,13 @@ class RequestJobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param RequestJobRequest $request
+     * @return RequestJobResources
      */
-    public function store(Request $request)
+    public function store(RequestJobRequest $request): RequestJobResources
     {
-        //
+        $create_request_job = RequestJob::create($request->validated());
+        return new RequestJobResources($create_request_job);
     }
 
     /**
@@ -46,13 +49,34 @@ class RequestJobController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param RequestJob $request
+     * @return string[]
      */
-    public function update(Request $request, $id)
+    public function update(RequestJob $request): array
     {
-        //
+        $request_job = RequestJob::find($request -> id);
+        $request_job -> email = $request -> email;
+        $request_job -> phone = $request -> phone;
+        $request_job -> name = $request -> name;
+        $request_job -> surname = $request -> surname;
+        $request_job -> patronymic = $request -> patronymic;
+        $request_job -> pass = $request -> pass;
+        $request_job -> passport_series = $request -> passport_series;
+        $request_job -> passport_number = $request -> passport_number;
+        $request_job -> date = $request -> date;
+        $request_job -> depart = $request -> depart;
+        $request_job -> depart_code = $request -> depart_code;
+        $request_job -> date_accept = $request -> date_accept;
+        $request_job -> positions_id = $request -> positions_id;
+        $request_job -> education_id = $request -> education_id;
+        $request_job -> solutions_id = $request -> solutions_id;
+        $result = $request_job -> save();
+        if($result){
+            return (['result' => 'Данные обновленны']);
+        }
+        else{
+            return  (['result' => 'Неудачно']);
+        }
     }
 
     /**
