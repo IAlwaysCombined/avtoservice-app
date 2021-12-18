@@ -18,7 +18,7 @@ class ServiceFactory extends Factory
             'coast' => $this->faker->numberBetween(200,1000),
             'time' => $this->faker->time,
             'created_at' => $this->faker->dateTime,
-            'updated_at' => $this->faker->dateTime,
+            'updated_at' => $this->faker->dateTime
         ];
     }
 }

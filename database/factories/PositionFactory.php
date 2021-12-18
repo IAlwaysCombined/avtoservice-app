@@ -14,7 +14,11 @@ class PositionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'salary' => $this->faker->name(),
+            'role' => $this->faker->name(),
+            'created_at' => $this->faker->dateTime,
+            'updated_at' => $this->faker->dateTime,
         ];
     }
 }

@@ -14,7 +14,12 @@ class EducationFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'range' => $this->faker->name(),
+            'date' => $this->faker->dateTime(),
+            'faculty' => $this->faker->name(),
+            'speciality' => $this->faker->name(),
+            'created_at' => $this->faker->dateTime,
+            'updated_at' => $this->faker->dateTime,
         ];
     }
 }

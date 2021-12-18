@@ -17,6 +17,9 @@ class MaterialFactory extends Factory
             'date' => $this->faker->date(),
             'wight' => $this->faker->numberBetween(200,1000),
             'code' => $this->faker->numberBetween(200,1000),
+            'created_at' => $this->faker->dateTime,
+            'updated_at' => $this->faker->dateTime,
+
         ];
     }
 }

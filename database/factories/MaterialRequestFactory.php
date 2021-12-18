@@ -14,7 +14,10 @@ class MaterialRequestFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'requests_id' => $this->faker->numberBetween(1, 10),
+            'materials_id' => $this->faker->numberBetween(1, 10),
+            'created_at' => $this->faker->dateTime,
+            'updated_at' => $this->faker->dateTime,
         ];
     }
 }
