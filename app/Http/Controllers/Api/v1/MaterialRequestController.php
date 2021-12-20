@@ -61,6 +61,6 @@ class MaterialRequestController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }

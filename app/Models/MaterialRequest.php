@@ -15,5 +15,4 @@ class MaterialRequest extends Model
     ];
 
     public $timestamps = false;
-
 }

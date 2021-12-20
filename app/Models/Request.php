@@ -17,4 +17,11 @@ class Request extends Model
 
     public $timestamps = false;
 
+    protected function material(){
+        return $this->belongsToMany(Material::class);
+    }
+
+    protected function service(){
+        return $this->belongsToMany(Service::class);
+    }
 }
