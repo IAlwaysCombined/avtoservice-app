@@ -59,6 +59,12 @@ return [
     |
     */
 
+    'api' =>[
+        'driver' => 'token',
+        'provider' => 'client',
+        'hash' => true
+    ],
+
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
