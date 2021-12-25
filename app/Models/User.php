@@ -27,8 +27,12 @@ class User extends Authenticatable
         'name',
         'surname',
         'email',
+        'phone',
         'pass',
-        'profile_photo_path',
+    ];
+
+    protected $hidden = [
+      'pass'
     ];
 
     public $timestamps = false;

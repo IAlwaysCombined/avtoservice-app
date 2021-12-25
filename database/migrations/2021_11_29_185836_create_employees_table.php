@@ -17,16 +17,13 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('phone')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('name');
             $table->string('surname');
             $table->string('pass');
             $table->string('passport_series');
             $table->string('passport_number');
-            $table->date('date');
             $table->string('depart');
             $table->string('depart_code');
-            $table->date('date_accept');
             $table->foreignId('positions_id') -> constrained();
             $table->foreignId('education_id') -> constrained();
             $table->foreignId('solutions_id') -> constrained();

@@ -11,20 +11,17 @@ class MaterialResources extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'type' => 'Material',
-            'attributes' => [
-                'date' => $this->date,
-                'wight' => $this->wight,
-                'code' => $this->code,
-                'created_at' => $this->created_at,
-            ],
+            'date' => $this->date,
+            'wight' => $this->wight,
+            'code' => $this->code,
+            'created_at' => $this->created_at,
         ];
     }
 }

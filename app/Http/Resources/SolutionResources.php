@@ -11,18 +11,15 @@ class SolutionResources extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'type' => 'Solution',
-            'attributes' => [
-                'solution' => $this->solution,
-                'created_at' => $this->created_at,
-            ],
+            'solution' => $this->solution,
+            'created_at' => $this->created_at,
         ];
     }
 }

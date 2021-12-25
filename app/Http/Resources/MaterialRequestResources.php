@@ -18,7 +18,7 @@ class MaterialRequestResources extends JsonResource
     {
         return [
             'request_id' =>$this->request_id,
-            'material_id' =>$this->material_id,
+            'material_id' =>$this->material_id
         ];
     }
 }

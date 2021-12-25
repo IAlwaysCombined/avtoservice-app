@@ -24,7 +24,6 @@ class RequestJobFactory extends Factory
             'date' => $this->faker->dateTime(),
             'depart' => $this->faker->word(),
             'depart_code' => $this->faker->word(),
-            'date_accept' => $this->faker->dateTime(),
             'positions_id' => $this->faker->numberBetween(1, 9),
             'education_id' => $this->faker->numberBetween(1, 9),
             'created_at' => $this->faker->dateTime,

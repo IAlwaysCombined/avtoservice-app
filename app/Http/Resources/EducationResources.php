@@ -11,22 +11,18 @@ class EducationResources extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'type' => 'Education',
-            'attributes' => [
-                'range' => $this->range,
-                'date' => $this->date,
-                'faculty' => $this->faculty,
-                'speciality' => $this->speciality,
-                'created_at' => $this->created_at,
-
-            ],
+            'range' => $this->range,
+            'date' => $this->date,
+            'faculty' => $this->faculty,
+            'speciality' => $this->speciality,
+            'created_at' => $this->created_at,
         ];
     }
 }

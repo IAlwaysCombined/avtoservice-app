@@ -11,22 +11,19 @@ class AutoResources extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'type' => 'Auto',
-            'attributes' => [
-                'vin' => @$this->vin,
-                'model' => @$this->model,
-                'brand' => @$this->brand,
-                'color' => @$this->color,
-                'eco' => @$this->eco,
-                'created_at' => @$this->created_at,
-            ],
+            'vin' => $this->vin,
+            'model' => $this->model,
+            'brand' => $this->brand,
+            'color' => $this->color,
+            'eco' => $this->eco,
+            'created_at' => $this->created_at,
         ];
     }
 }

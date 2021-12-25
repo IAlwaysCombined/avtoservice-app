@@ -10,20 +10,18 @@ class UserResources extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'type' => 'Request Job',
-            'attributes' => [
-                'name' => $this->name,
-                'surname' => $this->surname,
-                'email' => $this->email,
-                'created_at' => $this->created_at,
-            ],
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'created_at' => $this->created_at,
         ];
     }
 }

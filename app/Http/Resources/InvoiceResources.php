@@ -11,19 +11,16 @@ class InvoiceResources extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'type' => 'Invoice',
-            'attributes' => [
-                'date' => $this->date,
-                'coast' => $this->coast,
-                'created_at' => $this->created_at,
-            ],
+            'date' => $this->date,
+            'coast' => $this->coast,
+            'created_at' => $this->created_at,
         ];
     }
 }

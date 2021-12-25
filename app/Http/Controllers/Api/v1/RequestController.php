@@ -44,7 +44,7 @@ class RequestController extends Controller
      */
     public function show(int $id): RequestResources
     {
-        return new RequestResources(\App\Models\Request::findOrFail($id));
+        return new RequestResources(\App\Models\Request::with('material')->findOrFail($id));
     }
 
     /**
