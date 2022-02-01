@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Http\Resources\SolutionResources;
 use App\Http\Resources\UserResources;
-use App\Models\Auto;
-use App\Models\Solution;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -22,19 +18,7 @@ class UserController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return UserResources::collection(User::all());
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param UserRequest $request
-     * @return UserResources
-     */
-    public function store(UserRequest $request): UserResources
-    {
-        $create_user = User::create($request->validated());
-        return new UserResources($create_user);
+        return UserResources::collection($this->user->get());
     }
 
     /**
@@ -45,7 +29,7 @@ class UserController extends Controller
      */
     public function show(int $id): UserResources
     {
-        return new UserResources(User::findOrFail($id));
+        return new UserResources($this->user->findOrFail($id));
     }
 
     /**

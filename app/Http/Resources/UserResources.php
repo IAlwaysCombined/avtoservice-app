@@ -22,6 +22,7 @@ class UserResources extends JsonResource
             'name' => $this->name,
             'surname' => $this->surname,
             'created_at' => $this->created_at,
+            //'autos' => AutoListResource::collection($this->auto),
         ];
     }
 }

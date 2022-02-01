@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->string('name');
             $table->string('surname');
-            $table->string('pass');
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

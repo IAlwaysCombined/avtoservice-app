@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\v1\Auth\AuthController;
+use App\Http\Controllers\Api\v1\Registration\RegistrationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Api\v1\UserController;
@@ -13,30 +15,38 @@ use \App\Http\Controllers\Api\v1\PositionController;
 use \App\Http\Controllers\Api\v1\RequestController;
 use \App\Http\Controllers\Api\v1\RequestJobController;
 use \App\Http\Controllers\Api\v1\SolutionController;
-use \App\Http\Controllers\Api\v1\ServiceRequestController;
 use \App\Http\Controllers\Api\v1\MaterialRequestController;
-
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
-Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout',  [AuthController::class, 'logout']);
+    Route::post('refresh',  [AuthController::class, 'refresh']);
+    Route::post('me',  [AuthController::class, 'me']);
+});
+
+Route::post('register', [RegistrationController::class, 'register']);
 
 //Users routes
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/users/add', [UserController::class, 'store']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::post('/users/edit/{id}', [UserController::class, 'update']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
+Route::group(['namespace' => "User", 'middleware' => 'jwt.auth'], function (){
+    Route::get('/users', [UserController::class, 'index']);
+    Route::post('/users/add', [UserController::class, 'store']);
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::post('/users/edit/{id}', [UserController::class, 'update']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+});
 //Auto routes
-Route::get('/autos', [AutoController::class, 'index']);
-Route::post('/autos/add', [AutoController::class, 'store']);
-Route::get('/autos/{id}', [AutoController::class, 'show']);
-Route::post('/autos/edit/{id}', [AutoController::class, 'update']);
-Route::delete('/autos/{id}', [AutoController::class, 'destroy']);
+Route::group(['namespace' => "Auto", 'middleware' => 'jwt.auth'], function (){
+    Route::get('/autos', [AutoController::class, 'index']);
+    Route::post('/autos/add', [AutoController::class, 'store']);
+    Route::get('/autos/{id}', [AutoController::class, 'show']);
+    Route::post('/autos/edit/{id}', [AutoController::class, 'update']);
+    Route::delete('/autos/{id}', [AutoController::class, 'destroy']);
+});
 //Education routes
 Route::get('/educations', [EducationController::class, 'index']);
 Route::post('/educations/add', [EducationController::class, 'store']);

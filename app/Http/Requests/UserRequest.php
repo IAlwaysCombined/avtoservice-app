@@ -30,7 +30,7 @@ class UserRequest extends FormRequest
             'phone' => 'required|max:20',
             'name' => 'required|max:20',
             'surname' => 'required|max:20',
-            'pass' => 'required|max:20',
+            'password' => 'required|max:20',
             'profile_photo_path' => 'required|max:150',
         ];
     }
@@ -53,7 +53,7 @@ class UserRequest extends FormRequest
             'phone.required' => 'Ошибка,поле phone пустое',
             'name.required' => 'Ошибка,поле name пустое',
             'surname.required' => 'Ошибка,поле surname пустое',
-            'pass.required' => 'Ошибка,поле pass пустое',
+            'password.required' => 'Ошибка,поле password пустое',
             'profile_photo_path.required' => 'Ошибка,поле profile_photo_path пустое',
         ];
     }

@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\AutoRequest;
 use App\Http\Resources\AutoResources;
 use App\Models\Auto;
-use App\Models\Material;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class AutoController extends Controller
+class AutoController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +17,7 @@ class AutoController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return AutoResources::collection(Auto::all());
+        return AutoResources::collection($this->user->auto()->get());
     }
 
     /**
@@ -31,7 +29,7 @@ class AutoController extends Controller
     public function store(AutoRequest $request): AutoResources
     {
         $create_auto = Auto::create($request->validated());
-        return new AutoResources($create_auto);
+        return new AutoResources($this->user->auto()->save($create_auto));
     }
 
     /**
@@ -42,7 +40,7 @@ class AutoController extends Controller
      */
     public function show(int $id): AutoResources
     {
-        return new AutoResources(Auto::findOrFail($id));
+        return new AutoResources($this->user->auto()->findOrFail($id));
     }
 
     /**
@@ -79,11 +77,11 @@ class AutoController extends Controller
     {
         $auto = Auto::find($id);
         $result = $auto -> delete();
-        if($result){
-            return ['result' => 'Удалено'];
+        if ($result){
+            return ['result' => 'Deleted.'];
         }
         else{
-            return ['result' => 'Ошибка удаления'];
+            return ['result' => 'Error.'];
         }
     }
 }

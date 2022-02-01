@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestRequest;
 use App\Http\Resources\AutoResources;
@@ -9,10 +10,12 @@ use App\Http\Resources\PositionResources;
 use App\Http\Resources\RequestResources;
 use App\Models\Auto;
 use App\Models\Position;
+use Facade\FlareClient\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
-class RequestController extends Controller
+class RequestController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +24,7 @@ class RequestController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return RequestResources::collection(\App\Models\Request::all());
+        return AutoResources::collection($this->user->request()->get());
     }
 
     /**

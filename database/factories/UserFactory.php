@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'phone' => $this->faker->unique()->phoneNumber(),
             'name' => $this->faker->name(),
             'surname' => $this->faker->name(),
-            'pass' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
             'created_at' => $this->faker->dateTime,
             'updated_at' => $this->faker->dateTime,
